@@ -10,6 +10,7 @@
     "start": "node index.js"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC"
+  "author": "Pawel <pawel-skrzypkowski@outlook.com>",
+  "license": "ISC",
+  "repository": "git@github.com:pskrzypk/DevOps.git"
 }
