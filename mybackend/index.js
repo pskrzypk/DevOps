@@ -33,7 +33,6 @@ pgClient.on('error', () => {
 });
 
 pgClient.
-pgClient.
 query('CREATE TABLE IF NOT EXISTS numbers (number INT)').
 catch((err) => {console.log(err)});
 
