@@ -1,3 +1,6 @@
-docker build -t pskrzypk/devops:latest .
-
+docker network create mymulticont
 docker run -v C:\Users\Gorlist\Desktop\Semestr4\DevOps\webapp\postgresdata:/var/lib/postgresql/data --rm --name mypostgres --network=mymulticont -e POSTGRES_PASSWORD=1qaz2wsx postgres:alpine
+
+docker build . -t pskrzypk/mybackend:latest
+docker run -p 8090:5000 --rm --network=mymulticont --name mybackend pskrzypk/mybackend
+
