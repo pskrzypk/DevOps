@@ -1,0 +1,3 @@
+docker build -t pskrzypk/devops:latest .
+
+docker run -v C:\Users\Gorlist\Desktop\Semestr4\DevOps\webapp\postgresdata:/var/lib/postgresql/data --rm --name mypostgres --network=mymulticont -e POSTGRES_PASSWORD=1qaz2wsx postgres:alpine
