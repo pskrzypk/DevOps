@@ -8,4 +8,4 @@ RUN yarn install
 
 COPY . .
 
-CMD ["yarn", "dev", "--legacy-watch"]
+CMD ["yarn", "dev"]

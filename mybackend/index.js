@@ -82,7 +82,7 @@ app.post('/api', (req, res) => {
     globalid++;
 
     pgClient.
-    query('INSERT INTO dywidenda (wartosc)VALUES (' + dywidenda + ');').
+    query('INSERT INTO dywidenda (wartosc) VALUES (' + dywidenda + ');').
     catch((err) => {console.log(err)});
 
 

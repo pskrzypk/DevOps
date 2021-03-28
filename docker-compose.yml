@@ -34,8 +34,7 @@ services:
             dockerfile: Dockerfile
             context: ./mybackend
         volumes:
-            - C:\Users\Gorlist\Desktop\Semestr4\DevOps\webapp\mybackend\node_modules:/opt/myapp/node_modules
-            #- C:\Users\Gorlist\Desktop\Semestr4\DevOps\webapp\mybackend\node_modules
+            - /opt/myapp/node_modules
             - C:\Users\Gorlist\Desktop\Semestr4\DevOps\webapp\mybackend:/opt/myapp
         environment:
             POSTGRES_PASSWORD: '1qaz2wsx'
