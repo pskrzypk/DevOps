@@ -8,4 +8,4 @@ RUN yarn install
 
 COPY . .
 
-CMD ["node", "index.js"]
+CMD ["yarn", "dev", "--legacy-watch"]

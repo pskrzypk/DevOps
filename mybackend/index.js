@@ -25,9 +25,9 @@ redisClient.on('connect', () =>{
 const { Pool } = require('pg');
 
 const pgClient = new Pool({
-    user: "postgres",
+    user: "myappuser",
     password: "1qaz2wsx",
-    database: "postgres",
+    database: "myappdb",
     host: "mypostgres",
     port: "5432"
 });
