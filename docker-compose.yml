@@ -1,41 +1,41 @@
 version: '3'
 
-networks:
-    mymulticont:
-        name: mymulticont
+#networks:
+#    mymulticont:
+#        name: mymulticont
 
 services:
 
     myredis:
         container_name: myredis
         image: 'redis:alpine'
-        networks:
-            - mymulticont
+#        networks:
+#            - mymulticont
 
     mypostgres:
         container_name: mypostgres
         image: 'postgres:alpine'
-        networks:
-            - mymulticont
+#        networks:
+#            - mymulticont
         environment:
             POSTGRES_PASSWORD: '1qaz2wsx'
             POSTGRES_DB: 'myappdb'
             POSTGRES_USER: 'myappuser'
             POSTGRES_HOST: 'mypostgres'
         volumes:
-            - C:\Users\Gorlist\Desktop\Semestr4\DevOps\webapp\postgresdata:/var/lib/postgresql/data
+            - ./postgresdata:/var/lib/postgresql/data
 
     mybackend:
         container_name: mybackend
         restart: always
-        networks:
-            - mymulticont
+#        networks:
+#            - mymulticont
         build:
             dockerfile: Dockerfile
             context: ./mybackend
         volumes:
             - /opt/myapp/node_modules
-            - C:\Users\Gorlist\Desktop\Semestr4\DevOps\webapp\mybackend:/opt/myapp
+            - ./mybackend:/opt/myapp
         environment:
             POSTGRES_PASSWORD: '1qaz2wsx'
             POSTGRES_DB: 'myappdb'
@@ -47,4 +47,5 @@ services:
         depends_on:
             - mypostgres
             - myredis
+        #command: ["./wait-for-it.sh", "db:5432", "--", "yarn", "dev"]
 
