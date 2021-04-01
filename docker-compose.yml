@@ -24,6 +24,7 @@ services:
             POSTGRES_HOST: 'mypostgres'
         volumes:
             - ./postgresdata:/var/lib/postgresql/data
+            - ./mybackend/init.sql:/docker-entrypoint-initdb.d/init.sql
 
     mybackend:
         container_name: mybackend

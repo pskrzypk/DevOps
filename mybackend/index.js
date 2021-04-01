@@ -40,9 +40,9 @@ pgClient.on('connect', () =>{
     console.log("Connected to Postgres server");
 });
 
-pgClient.
-query('CREATE TABLE IF NOT EXISTS dywidenda (id SERIAL PRIMARY KEY, wartosc NUMERIC(10, 2));').
-catch((err) => {console.log(err)});
+//pgClient.
+//query('CREATE TABLE IF NOT EXISTS dywidenda (id SERIAL PRIMARY KEY, wartosc NUMERIC(10, 2));').
+//catch((err) => {console.log(err)});
 
 pgClient.
 query('SELECT MAX(id) FROM dywidenda;').
