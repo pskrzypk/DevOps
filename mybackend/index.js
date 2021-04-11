@@ -38,58 +38,55 @@ pgClient.on('connect', () =>{
     console.log("Connected to Postgres server");
 });
 
-//pgClient.
-//query('CREATE TABLE IF NOT EXISTS dywidenda (id SERIAL PRIMARY KEY, wartosc NUMERIC(10, 2));').
-//catch((err) => {console.log(err)});
-
 // rest
 const PORT = 5000;
 
-function calculateTax(rows)
+function stringifyTax(id, wartosc, rentownosc)
+{
+    return "Id: "+ id + ", Wartość: " + wartosc + "zł, Rentowność: " + rentownosc + "%, Podatek: " + wartosc*rentownosc*0.01*0.19+"zł\n";
+}
+
+function stringifyTaxes(rows)
 {
     var str = "";
 
     for (i = 0; i < rows.length; i++)
     {
-        str += "Id: "+ rows[i].id + ", Wartość: " + rows[i].wartosc + "zł, Rentowność: " + rows[i].rentownosc + "%, Podatek: " + rows[i].wartosc*rows[i].rentownosc*0.01*0.19+"zł\n";
+        str += stringifyTax(rows[i].id, rows[i].wartosc, rows[i].rentownosc);
     }
 
     return str;
 }
 
 app.get("/api", (req, res) => {
-    var id = req.body['id'];
+    var id = req.query['id'];
 
     if (!id)
     {
         pgClient.
         query('SELECT * FROM dywidenda;').
-        then(result => {res.send(calculateTax(result.rows))}).
-        //then(result => {console.log(calculateTax(result.rows))}).
+        then(result => {res.send(stringifyTaxes(result.rows))}).
         catch((err) => {console.log(err)});
     }
     else
     {
-
+        redisClient.get(id, (err, result) => {
+            if (result == null)
+            {
+                pgClient.
+                query('SELECT * FROM dywidenda WHERE id=' + id + ';').
+                then(result => {res.send(stringifyTaxes(result.rows))}).
+                catch((err) => {console.log(err)});
+            }
+            else
+            {
+                res.send(stringifyTax(id, JSON.parse(result)["wartosc"], JSON.parse(result)["rentownosc"]));
+            }
+        });
     }
-
-    /*redisClient.get(id, (err, result) => {
-        if (result == null)
-        {
-            pgClient.
-            query('SELECT * FROM dywidenda WHERE id=' + id + ';').
-            then(result => {res.send("Oczytana dywidenda z postgres: " + result.rows[0].wartosc)}).
-            catch((err) => {console.log(err)});
-        }
-        else
-        {
-            res.send("Oczytana dywidenda z redis: " + result);
-        }
-    });*/
 });
 
 app.post('/api', (req, res) => {
-    //var dywidenda = req.query['dywidenda'];
     var wartosc = req.body['wartosc'];
     var rentownosc = req.body['rentownosc'];
 
@@ -97,8 +94,28 @@ app.post('/api', (req, res) => {
     query('INSERT INTO dywidenda (wartosc, rentownosc) VALUES (' + wartosc + ',' + rentownosc + ') RETURNING id;').
     then(result => {redisClient.set(result.rows[0].id, JSON.stringify({wartosc : wartosc, rentownosc: rentownosc}))}).
     catch((err) => {console.log(err)});
+});
 
-    //res.send("Zapisana dywidenda: " + wartosc);
+app.put('/api', (req, res) => {
+    var id = req.body['id'];
+    var wartosc = req.body['wartosc'];
+    var rentownosc = req.body['rentownosc'];
+
+    pgClient.
+    query("UPDATE dywidenda SET wartosc = "+ wartosc + ", rentownosc = " + rentownosc +" WHERE id = " + id +";").
+    then(redisClient.set(id, JSON.stringify({wartosc : wartosc, rentownosc: rentownosc}))).
+    catch((err) => {console.log(err)});
+
+    res.send("");
+});
+
+app.delete('/api', (req, res) => {
+    var id = req.query['id'];
+
+    pgClient.
+    query("DELETE FROM dywidenda WHERE id = " + id +";").
+    then(redisClient.del(id)).
+    catch((err) => {console.log(err)});
 });
 
 app.listen(PORT, () => {
