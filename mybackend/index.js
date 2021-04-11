@@ -45,14 +45,39 @@ pgClient.on('connect', () =>{
 // rest
 const PORT = 5000;
 
+function calculateTax(rows)
+{
+    var str = "";
+
+    for (i = 0; i < rows.length; i++)
+    {
+        str += "Id: "+ rows[i].id + ", Wartość: " + rows[i].wartosc + "zł, Rentowność: " + rows[i].rentownosc + "%, Podatek: " + rows[i].wartosc*rows[i].rentownosc*0.01*0.19+"zł\n";
+    }
+
+    return str;
+}
+
 app.get("/api", (req, res) => {
     var id = req.body['id'];
 
-    redisClient.get(id, (err, result) => {
+    if (!id)
+    {
+        pgClient.
+        query('SELECT * FROM dywidenda;').
+        then(result => {res.send(calculateTax(result.rows))}).
+        //then(result => {console.log(calculateTax(result.rows))}).
+        catch((err) => {console.log(err)});
+    }
+    else
+    {
+
+    }
+
+    /*redisClient.get(id, (err, result) => {
         if (result == null)
         {
             pgClient.
-            query('SELECT wartosc FROM dywidenda WHERE id=' + id + ';').
+            query('SELECT * FROM dywidenda WHERE id=' + id + ';').
             then(result => {res.send("Oczytana dywidenda z postgres: " + result.rows[0].wartosc)}).
             catch((err) => {console.log(err)});
         }
@@ -60,19 +85,20 @@ app.get("/api", (req, res) => {
         {
             res.send("Oczytana dywidenda z redis: " + result);
         }
-    });
+    });*/
 });
 
 app.post('/api', (req, res) => {
     //var dywidenda = req.query['dywidenda'];
-    var dywidenda = req.body['dywidenda'];
+    var wartosc = req.body['wartosc'];
+    var rentownosc = req.body['rentownosc'];
 
     pgClient.
-    query('INSERT INTO dywidenda (wartosc) VALUES (' + dywidenda + ') RETURNING id;').
-    then(result => {redisClient.set(result.rows[0].id, dywidenda)}).
+    query('INSERT INTO dywidenda (wartosc, rentownosc) VALUES (' + wartosc + ',' + rentownosc + ') RETURNING id;').
+    then(result => {redisClient.set(result.rows[0].id, JSON.stringify({wartosc : wartosc, rentownosc: rentownosc}))}).
     catch((err) => {console.log(err)});
 
-    res.send("Zapisana dywidenda: " + dywidenda);
+    //res.send("Zapisana dywidenda: " + wartosc);
 });
 
 app.listen(PORT, () => {

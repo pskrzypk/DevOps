@@ -2,50 +2,42 @@ import React, { useState } from 'react';
 import './App.css';
 import axios from 'axios';
 
-/*import Post from "./post";
-import MyForm from "./MyForm"
-
-
 function App() {
 
-    const [ initialValue, setInitialValue ] = useState(1234);
-
-    const handleInitialValue = (event) => {
-        setInitialValue(event.target.value);
-    }
-
-    return (
-        <div>
-            {initialValue} <br />
-
-            <input onChange={handleInitialValue}/>
-
-            <Post initValue={initialValue} changeParentHandler={setInitialValue} />
-            <MyForm/>
-        </div>
-    );
-}*/
-
-
-function App() {
-
-    const [dywidenda, setDywidenda] = useState("");
+    const [wartosc, setWartosc] = useState("");
+    const [rentownosc, setRentownosc] = useState("");
+    const [posts, setPosts] = useState([]);
 
     const handleSubmit = (event) => {
-        console.log(`Dane do wysłania ${dywidenda}`);
+        //console.log(`Dane do wysłania ${wartosc} ${rentownosc}`);
         event.preventDefault();
 
         axios.post('http://localhost:8090/api', {
-            dywidenda: dywidenda
+            wartosc: wartosc,
+            rentownosc: rentownosc
         })
     };
 
-    return (
-        <div>
-            <input type='text' value={dywidenda} onChange={event => setDywidenda(event.target.value)}/><br/>
+    const handleSubmitPobierz = (event) => {
+        event.preventDefault();
 
-            <input type='submit' value='OK' onClick={handleSubmit}/>
-        </div>
+        axios.get('http://localhost:8090/api').
+        then(response => setPosts(response.data)).
+        catch(error => console.log(error));
+    };
+
+    return (
+        <>
+            <div>
+                Wartość: <input type='text' value={wartosc} onChange={event => setWartosc(event.target.value)}/>&emsp;
+                Rentowność: <input type='text' value={rentownosc} onChange={event => setRentownosc(event.target.value)}/>&emsp;
+                <input type='submit' value='Wyślij' onClick={handleSubmit}/>
+            </div>
+            <div>
+                <input type='submit' value='Pobierz' onClick={handleSubmitPobierz}/><br/>
+                <div className='new-line'>{posts}</div>
+            </div>
+        </>
     );
 }
 
