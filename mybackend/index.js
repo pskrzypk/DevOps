@@ -6,8 +6,6 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-var globalid = 1
-
 // redis
 const redis = require('redis');
 
@@ -44,21 +42,11 @@ pgClient.on('connect', () =>{
 //query('CREATE TABLE IF NOT EXISTS dywidenda (id SERIAL PRIMARY KEY, wartosc NUMERIC(10, 2));').
 //catch((err) => {console.log(err)});
 
-pgClient.
-query('SELECT MAX(id) FROM dywidenda;').
-then(result => {
-    globalid = result.rows[0].max;
-    globalid++;
-    console.log("Setting globalid to: " + globalid);
-}).
-catch((err) => {console.log(err)});
-
 // rest
 const PORT = 5000;
 
 app.get("/api", (req, res) => {
-    var id = req.query['id'];
-
+    var id = req.body['id'];
 
     redisClient.get(id, (err, result) => {
         if (result == null)
@@ -76,15 +64,13 @@ app.get("/api", (req, res) => {
 });
 
 app.post('/api', (req, res) => {
-    var dywidenda = req.query['dywidenda'];
-
-    redisClient.set(globalid, dywidenda);
-    globalid++;
+    //var dywidenda = req.query['dywidenda'];
+    var dywidenda = req.body['dywidenda'];
 
     pgClient.
-    query('INSERT INTO dywidenda (wartosc) VALUES (' + dywidenda + ');').
+    query('INSERT INTO dywidenda (wartosc) VALUES (' + dywidenda + ') RETURNING id;').
+    then(result => {redisClient.set(result.rows[0].id, dywidenda)}).
     catch((err) => {console.log(err)});
-
 
     res.send("Zapisana dywidenda: " + dywidenda);
 });
