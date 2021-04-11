@@ -41,8 +41,6 @@ function App() {
     const handleSubmitPobierz = (event) => {
         event.preventDefault();
 
-        console.log('getStart');
-
         if (!id){
             axios.get('http://localhost:8090/api').
             then(response => setPosts(response.data)).
