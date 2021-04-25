@@ -12,7 +12,7 @@ function App() {
     const handleSubmit = (event) => {
         event.preventDefault();
 
-        axios.post('http://localhost:8090/api', {
+        axios.post('/api', {
             wartosc: wartosc,
             rentownosc: rentownosc
         })
@@ -21,7 +21,7 @@ function App() {
     const handleRemove = (event) => {
         event.preventDefault();
 
-        axios.delete('http://localhost:8090/api', {
+        axios.delete('/api', {
             params: {
                 id: id
             }
@@ -31,7 +31,7 @@ function App() {
     const handleUpdate = (event) => {
         event.preventDefault();
 
-        axios.put('http://localhost:8090/api', {
+        axios.put('/api', {
             id: id,
             wartosc: wartosc,
             rentownosc: rentownosc
@@ -42,12 +42,12 @@ function App() {
         event.preventDefault();
 
         if (!id){
-            axios.get('http://localhost:8090/api').
+            axios.get('/api').
             then(response => setPosts(response.data)).
             catch(error => console.log(error));
         }
         else {
-            axios.get('http://localhost:8090/api', {
+            axios.get('/api', {
                 params: {
                     id: id
                 }

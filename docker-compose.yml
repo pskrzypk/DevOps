@@ -34,6 +34,8 @@ services:
         build:
             dockerfile: Dockerfile
             context: ./mybackend
+        environment:
+            CHOKIDAR_USEPOLLING: "true"
         volumes:
             - /opt/myapp/node_modules
             - ./mybackend:/opt/myapp
@@ -43,10 +45,27 @@ services:
             POSTGRES_USER: 'myappuser'
             POSTGRES_HOST: 'mypostgres'
             REDIS_HOST: 'myredis'
-        ports:
-            - 8090:5000
+        #ports:
+            #- 8090:5000 debug only
         depends_on:
             - mypostgres
             - myredis
         #command: ["./wait-for-it.sh", "db:5432", "--", "yarn", "dev"]
 
+    mynginx:
+        restart: always
+        build:
+            dockerfile: Dockerfile
+            context: ./mynginx
+        ports:
+            - '9090:80'
+
+    myfrontend:
+        build:
+            dockerfile: Dockerfile
+            context: ./myfrontend
+        environment:
+            CHOKIDAR_USEPOLLING: "true"
+        volumes:
+            - /opt/app/node_modules
+            - ./myfrontend:/opt/app

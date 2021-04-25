@@ -43,7 +43,7 @@ const PORT = 5000;
 
 function stringifyTax(id, wartosc, rentownosc)
 {
-    return "Id: "+ id + ", Wartość: " + wartosc + "zł, Rentowność: " + rentownosc + "%, Podatek: " + wartosc*rentownosc*0.01*0.19+"zł\n";
+    return "Id: "+ id + ", Wartość: " + wartosc + "zł, Rentowność: " + rentownosc + "%, Podatek: " + (wartosc*rentownosc*0.01*0.19).toFixed(2)+"zł\n";
 }
 
 function stringifyTaxes(rows)
@@ -116,6 +116,8 @@ app.delete('/api', (req, res) => {
     query("DELETE FROM dywidenda WHERE id = " + id +";").
     then(redisClient.del(id)).
     catch((err) => {console.log(err)});
+
+    res.send("");
 });
 
 app.listen(PORT, () => {
