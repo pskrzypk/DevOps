@@ -9,3 +9,4 @@ RUN yarn install
 COPY . .
 
 CMD ["yarn", "start"]
+# yarn build
