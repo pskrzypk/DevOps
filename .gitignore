@@ -1,3 +1,4 @@
 # dependencies
 postgresdata
 /mybackend/yarn-error.log
+/mykubernetes/mybackend/node_modules/

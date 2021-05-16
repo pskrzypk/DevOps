@@ -4,10 +4,11 @@ metadata:
   name: my-nginx-pod
   labels:
     component: web
+    app: my-app
 
 spec:
   containers:
     - name: my-nginx
-      image: nginx:alpine
+      image: nginx:alpine # pskrzypk/mynginx
       ports:
         - containerPort: 80
