@@ -1,0 +1,105 @@
+docker version
+docker run ...
+docker run -it alpine /bin/sh
+docker ps # wysietla uruchomione kontenery
+docker ps -a # wyswietla wszystkie kontenery
+docker stop CONTAINER ID
+docker start CONTAINER_ID
+docker system prune # czysci kontenery zatrzymane
+docker image prune # czysci nieuzywane obrazy
+docker images -a
+docker exec -it CONTAINER_ID sh
+docker build . # buduje z Dockerfile
+
+docker network ls
+docker network rm CONTAINER_ID
+docker network inspect mymulticont
+docker network create mymulticont
+docker run --rm --name myalpine1 --network mymulticont -d alpine sleep 3000
+docker run --name=myredis --network mymulticont --rm redis:alpine
+docker container rm myalpine1
+
+docker push pskrzypk/mywebapp:latest
+docker push pskrzypk/devops:latest
+
+image - plik binarny, fragment filesystemu
+kontener - proces
+
+npm init -y
+
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+& 'C:\Program Files\Docker\Docker\DockerCli.exe' -SwitchDaemon
+yarn init -y
+yarn add express redis pg body-parser cors nodemon
+
+docker build -t pskrzypk/devops:latest . # budowanie i nadawanie nazwy
+docker build . -t pskrzypk/mybackend
+docker run -p 8090:9090 pskrzypk/devops # startowanie i mapowanie portow
+docker run --rm --network=mymulticont pskrzypk/mybackend
+
+# podlaczanie dysku
+docker run -v C:\Users\Gorlist\Desktop\Semestr4\DevOps\webapp\postgresdata:/var/lib/postgresql/data --rm --name mypostgres --network=mymulticont -e POSTGRES_PASSWORD=1qaz2wsx postgres:alpine
+
+docker-compose up
+docker-compose up --build
+docker-compose down
+docker-compose stop
+
+
+
+
+
+
+kubernetes:
+kubectl cluster-info # czy dziala
+kubectl get pods
+kubectl --namespace=kube-system get pods
+kubectl apply -f my-nginx-pod.yaml # stworz
+kubectl create -f my-nginx-pod.yaml # tez stworz, ale inaczej?
+kubectl describe pod my-nginx-pod # zajrzyj do srodka
+kubectl describe pv
+kubectl describe cm
+kubectl delete pod my-nginx-pod
+kubectl delete ...
+kubectl get service
+kubectl get deploy
+kubectl get rs
+kubectl scale --replicas=7 -f my-nginx-replicaset.yaml
+kubectl scale --replicas=3 rs my-nginx-replicaset
+
+PS C:\Users\Gorlist\Desktop\Semestr4\DevOps\webapp\mykubernetes\lab9> kubectl apply -f pv-local.yml
+PS C:\Users\Gorlist\Desktop\Semestr4\DevOps\webapp\mykubernetes\lab9> kubectl apply -f postgres-pvc.yml
+PS C:\Users\Gorlist\Desktop\Semestr4\DevOps\webapp\mykubernetes\lab9> kubectl apply -f postgres-deployment.yml
++ clusterip
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+stare:
+
+docker network create mymulticont
+docker run -v C:\Users\Gorlist\Desktop\Semestr4\DevOps\webapp\postgresdata:/var/lib/postgresql/data --rm --name mypostgres --network=mymulticont -e POSTGRES_PASSWORD=1qaz2wsx postgres:alpine
+docker run --name=myredis --network mymulticont --rm redis:alpine
+
+docker build . -t pskrzypk/mybackend:latest
+docker run -p 8090:5000 --rm --network=mymulticont --name mybackend pskrzypk/mybackend
+

@@ -13,4 +13,4 @@ spec:
     component: backend
     app: my-app
 
-
+# port danego poda na zewnatrz

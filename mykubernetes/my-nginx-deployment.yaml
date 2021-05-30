@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: my-ningx-container
-          image: nginx:alpine
+          image: pskrzypk/mynginx # nginx:alpine
   replicas: 3
   selector:
     matchLabels:

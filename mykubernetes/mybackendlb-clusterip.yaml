@@ -12,3 +12,7 @@ spec:
   selector:
     component: backend
     app: my-app
+
+# sluzy po to zeby serwisy (nazwy wewnatrz clustra) funkcjonowaly jako nazwa w lokalnym dns
+# po to, zeby backend widzial baze danych
+# wewnatrz clustra
