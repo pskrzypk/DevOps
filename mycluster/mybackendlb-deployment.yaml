@@ -3,8 +3,8 @@ kind: Deployment
 metadata:
   name: mybackendlb-deployment
   labels:
-    component: backend
     app: my-app
+    component: backend
 
 spec:
   template:
@@ -18,21 +18,26 @@ spec:
         - name: mybackendlb-container
           image: pskrzypk/mybackendlb
           env:
-            - name: POSTGRES_PASSWORD
+            - name: PGPASSWORD
               valueFrom:
                 secretKeyRef:
                   name: myapp-secret
                   key: PGPASSWORD
-            - name: POSTGRES_DB
+            - name: PGDATABASE
               valueFrom:
                 configMapKeyRef:
                   name: mypostgres-config
                   key: PGDATABASE
-            - name: POSTGRES_USER
+            - name: PGUSER
               valueFrom:
                 configMapKeyRef:
                   name: mypostgres-config
                   key: PGUSER
+            - name: PGHOST
+              valueFrom:
+                configMapKeyRef:
+                  name: mypostgres-config
+                  key: PGHOST
   replicas: 3
   selector:
     matchLabels:

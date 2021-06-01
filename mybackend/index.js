@@ -23,14 +23,23 @@ redisClient.on('connect', () =>{
 // postgres
 const { Pool } = require('pg');
 
-
 const pgClient = new Pool({
     user: keys.pgUser,
     password: keys.pgPassword,
     database: keys.pgDatabase,
+    host: keys.pgHost,
+    port: "5432"
+});
+
+/*
+const pgClient = new Pool({
+    user: "myappuser",
+    password: "1qaz2wsx",
+    database: "myappdb",
     host: "mypostgres",
     port: "5432"
 });
+*/
 
 pgClient.on('error', () => {
     console.log("Postgres not connected");
@@ -100,7 +109,10 @@ app.post('/api', (req, res) => {
     then(result => {redisClient.set(result.rows[0].id, JSON.stringify({wartosc : wartosc, rentownosc: rentownosc}))}).
     catch((err) => {console.log(err)});
 
-    res.send("Post received");
+    pgClient.
+    query('SELECT * FROM dywidenda;').
+    then(result => {res.send(stringifyTaxes(result.rows))}).
+    catch((err) => {res.send("Not connected to db... " + process.env.PGUSER + ", " + keys.pgPassword + ", " + keys.pgDatabase + ", " + keys.pgHost)});
 });
 
 app.put('/api', (req, res) => {

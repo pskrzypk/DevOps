@@ -6,4 +6,4 @@ metadata:
 data:
   PGDATABASE: myappdb
   PGUSER: myappuser
-  PGHOST: mypostgres-clusterip
+  PGHOST: mypostgres
