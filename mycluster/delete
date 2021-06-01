@@ -4,6 +4,7 @@ kubectl delete service mybackendlb-node-port
 
 kubectl delete service mybackendlb-clusterip
 kubectl delete service mypostgres-clusterip
+kubectl delete service myredis-clusterip
 
 kubectl delete configMaps --all
 kubectl delete deployments --all

@@ -112,7 +112,7 @@ app.post('/api', (req, res) => {
     pgClient.
     query('SELECT * FROM dywidenda;').
     then(result => {res.send(stringifyTaxes(result.rows))}).
-    catch((err) => {res.send("Not connected to db... " + process.env.PGUSER + ", " + keys.pgPassword + ", " + keys.pgDatabase + ", " + keys.pgHost)});
+    catch((err) => {res.send(err)});
 });
 
 app.put('/api', (req, res) => {
