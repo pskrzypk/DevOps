@@ -108,11 +108,11 @@ app.post('/api', (req, res) => {
     query('INSERT INTO dywidenda (wartosc, rentownosc) VALUES (' + wartosc + ',' + rentownosc + ') RETURNING id;').
     then(result => {redisClient.set(result.rows[0].id, JSON.stringify({wartosc : wartosc, rentownosc: rentownosc}))}).
     catch((err) => {console.log(err)});
-
+/*
     pgClient.
     query('SELECT * FROM dywidenda;').
     then(result => {res.send(stringifyTaxes(result.rows))}).
-    catch((err) => {res.send(err)});
+    catch((err) => {res.send(keys.pgUser + ", " + keys.pgPassword + ", " + keys.pgDatabase + ", " + keys.pgHost)});*/
 });
 
 app.put('/api', (req, res) => {

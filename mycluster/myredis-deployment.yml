@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: myredis-deployment
   labels:
-    app: myredis
+    app: my-app
     type: cache
 
 spec:
@@ -11,7 +11,7 @@ spec:
     metadata:
       name: myredis-pod
       labels:
-        app: myredis
+        app: my-app
         type: cache
     spec:
       containers:
@@ -20,4 +20,5 @@ spec:
   replicas: 3
   selector:
     matchLabels:
+      app: my-app
       type: cache
