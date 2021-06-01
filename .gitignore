@@ -2,3 +2,5 @@
 postgresdata
 /mybackend/yarn-error.log
 /mykubernetes/mybackend/node_modules/
+/mybackend/node_modules/
+/others/mybackend/node_modules/

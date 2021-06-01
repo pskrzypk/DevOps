@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const keys = require('./keys');
 
 const app = express();
 
@@ -12,7 +13,7 @@ const redis = require('redis');
 const redisClient = redis.createClient({
     host: "myredis",
     port: 6379,
-    // retry_strategy: () => 1000
+    retry_strategy: () => 1000
 });
 
 redisClient.on('connect', () =>{
@@ -22,10 +23,11 @@ redisClient.on('connect', () =>{
 // postgres
 const { Pool } = require('pg');
 
+
 const pgClient = new Pool({
-    user: "myappuser",
-    password: "1qaz2wsx",
-    database: "myappdb",
+    user: keys.pgUser,
+    password: keys.pgPassword,
+    database: keys.pgDatabase,
     host: "mypostgres",
     port: "5432"
 });
@@ -37,6 +39,8 @@ pgClient.on('error', () => {
 pgClient.on('connect', () =>{
     console.log("Connected to Postgres server");
 });
+
+pgClient.query('CREATE TABLE IF NOT EXISTS dywidenda (id SERIAL PRIMARY KEY, wartosc NUMERIC(15, 2), rentownosc NUMERIC(4, 2))').catch(err => console.log(err));
 
 // rest
 const PORT = 5000;
@@ -59,6 +63,7 @@ function stringifyTaxes(rows)
 }
 
 app.get("/api", (req, res) => {
+
     var id = req.query['id'];
 
     if (!id)
@@ -94,6 +99,8 @@ app.post('/api', (req, res) => {
     query('INSERT INTO dywidenda (wartosc, rentownosc) VALUES (' + wartosc + ',' + rentownosc + ') RETURNING id;').
     then(result => {redisClient.set(result.rows[0].id, JSON.stringify({wartosc : wartosc, rentownosc: rentownosc}))}).
     catch((err) => {console.log(err)});
+
+    res.send("Post received");
 });
 
 app.put('/api', (req, res) => {
@@ -123,3 +130,22 @@ app.delete('/api', (req, res) => {
 app.listen(PORT, () => {
     console.log(`API listening on port ${PORT}`);
 })
+
+
+/*
+const { v4: uuidv4 } = require('uuid');
+const express = require('express');
+const app = express();
+
+const appId = uuidv4();
+
+const appPort = 5000;
+
+app.get('/api', (req, res) => {
+   res.send(`[${appId}] Hello from mybackend server`);
+});
+
+app.listen(appPort, err =>{
+    console.log(`App listening on port ${appPort}`);
+});
+*/
