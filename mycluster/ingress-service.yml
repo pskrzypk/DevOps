@@ -15,7 +15,7 @@ spec:
           - path: /api/?(.*)
             backend:
               serviceName: myapp-backend-clusterip
-              servicePort: 4000
+              servicePort: 5000
           - path: /?(.*)
             backend:
               serviceName: myapp-frontend-clusterip
