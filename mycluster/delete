@@ -1,4 +1,4 @@
-kubectl delete services -all
+kubectl delete services --all
 kubectl delete configMaps --all
 kubectl delete deployments --all
 kubectl delete pods --all

@@ -12,11 +12,11 @@ spec:
   rules:
     - http:
         paths:
-          - path: /api/?(.*)
+          - path: /api
             backend:
               serviceName: mybackendlb-clusterip
               servicePort: 5000
-          - path: /?(.*)
+          - path: /
             backend:
               serviceName: myapp-frontend-clusterip
               servicePort: 80
