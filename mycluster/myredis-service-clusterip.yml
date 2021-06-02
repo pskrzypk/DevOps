@@ -11,4 +11,5 @@ spec:
           port: 6379
 
     selector:
+        app: my-app
         type: cache

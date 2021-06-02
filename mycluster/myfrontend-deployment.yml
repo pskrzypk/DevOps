@@ -5,7 +5,7 @@ kind: Deployment
 metadata:
     name: myfrontend-deployment
     labels:
-        app: myapp-frontend
+        app: my-app
         type: frontend
 
 spec:
@@ -13,16 +13,17 @@ spec:
         metadata:
             name: myfrontend-pod
             labels:
-                app: myapp-frontend
+                app: my-app
                 type: frontend
-    
+
         spec:
             containers:
                 - name: myfrontend-container
-                  image: shanger/myfrontend
+                  image: pskrzypk/myfrontend
                   stdin: true
 
     replicas: 3
     selector:
         matchLabels:
+            app: my-app
             type: frontend
