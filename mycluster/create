@@ -19,5 +19,6 @@ kubectl apply -f mybackendlb-deployment.yaml
 
 kubectl create -f myfrontend-service-clusterip.yml
 kubectl create -f myfrontend-deployment.yml
+kubectl apply -f myfrontend-node-port.yml
 
 kubectl get deploy
