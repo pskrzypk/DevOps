@@ -11,8 +11,8 @@ app.use(express.json());
 const redis = require('redis');
 
 const redisClient = redis.createClient({
-    host: "myredis",
-    port: 6379,
+    host: keys.redisHost,
+    port: keys.redisPort,
     retry_strategy: () => 1000
 });
 
@@ -28,7 +28,7 @@ const pgClient = new Pool({
     password: keys.pgPassword,
     database: keys.pgDatabase,
     host: keys.pgHost,
-    port: "5432"
+    port: keys.pgPort
 });
 
 /*
@@ -108,11 +108,11 @@ app.post('/api', (req, res) => {
     query('INSERT INTO dywidenda (wartosc, rentownosc) VALUES (' + wartosc + ',' + rentownosc + ') RETURNING id;').
     then(result => {redisClient.set(result.rows[0].id, JSON.stringify({wartosc : wartosc, rentownosc: rentownosc}))}).
     catch((err) => {console.log(err)});
-/*
+
     pgClient.
     query('SELECT * FROM dywidenda;').
     then(result => {res.send(stringifyTaxes(result.rows))}).
-    catch((err) => {res.send(keys.pgUser + ", " + keys.pgPassword + ", " + keys.pgDatabase + ", " + keys.pgHost)});*/
+    catch((err) => {res.send(err + "," + keys.pgUser + ", " + keys.pgPassword + ", " + keys.pgDatabase + ", " + keys.pgHost + ", " + keys.pgPort + ", " + keys.redisHost + ", " + keys.redisPort)});
 });
 
 app.put('/api', (req, res) => {

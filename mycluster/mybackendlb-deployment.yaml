@@ -38,6 +38,10 @@ spec:
                 configMapKeyRef:
                   name: mypostgres-config
                   key: PGHOST
+            - name: REDIS_HOST
+              value: myredis-clusterip
+            - name: REDIS_PORT
+              value: '6379'
   replicas: 3
   selector:
     matchLabels:
