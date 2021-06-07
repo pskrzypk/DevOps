@@ -1,22 +1,28 @@
-apiVersion: extensions/v1beta1
-
+apiVersion: networking.k8s.io/v1
 kind: Ingress
-
 metadata:
-  name: ingress-service
-  annotations:
-    kubernetes.io/ingress.class: nginx
-    nginx.ingress.kubernetes.io/rewrite-target: /$1
-
+  name: webapp-ingress
 spec:
+  defaultBackend:
+    service:
+      name: myapp-frontend-clusterip
+      port:
+        number: 80
   rules:
     - http:
         paths:
-          - path: /api
-            backend:
-              serviceName: mybackendlb-clusterip
-              servicePort: 5000
-          - path: /
-            backend:
-              serviceName: myapp-frontend-clusterip
-              servicePort: 80
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name:  myapp-frontend-clusterip
+              port:
+                number: 80
+        - path: /api
+          pathType: Prefix
+          backend:
+            service:
+              name:  mybackendlb-clusterip
+              port:
+                number: 5000
+
