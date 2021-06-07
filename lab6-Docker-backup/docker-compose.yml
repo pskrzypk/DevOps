@@ -1,22 +1,14 @@
 version: '3'
 
-#networks:
-#    mymulticont:
-#        name: mymulticont
-
 services:
 
     myredis:
         container_name: myredis
         image: 'redis:alpine'
-#        networks:
-#            - mymulticont
 
     mypostgres:
         container_name: mypostgres
         image: 'postgres:alpine'
-#        networks:
-#            - mymulticont
         environment:
             POSTGRES_PASSWORD: '1qaz2wsx'
             POSTGRES_DB: 'myappdb'
@@ -29,8 +21,6 @@ services:
     mybackend:
         container_name: mybackend
         restart: always
-#        networks:
-#            - mymulticont
         build:
             dockerfile: Dockerfile
             context: ./mybackend
@@ -45,12 +35,9 @@ services:
             POSTGRES_USER: 'myappuser'
             POSTGRES_HOST: 'mypostgres'
             REDIS_HOST: 'myredis'
-        #ports:
-            #- 8090:5000 debug only
         depends_on:
             - mypostgres
             - myredis
-        #command: ["./wait-for-it.sh", "db:5432", "--", "yarn", "dev"]
 
     mynginx:
         restart: always
