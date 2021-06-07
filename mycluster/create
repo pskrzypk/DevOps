@@ -5,11 +5,11 @@ kubectl apply -f pv-local.yml
 kubectl create -f myredis-service-clusterip.yml
 kubectl create -f myredis-deployment.yml
 
-kubectl apply -f postgres-pvc.yml
-kubectl apply -f postgres-clusterip.yml
-kubectl apply -f postgres-secret.yml
-kubectl apply -f postgres-configMap.yml
-kubectl apply -f postgres-deployment.yml
+kubectl apply -f mypostgres-pvc.yml
+kubectl apply -f mypostgres-clusterip.yml
+kubectl apply -f mypostgres-secret.yml
+kubectl apply -f mypostgres-config.yml
+kubectl apply -f mypostgres-deployment.yml
 
 # kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v0.47.0/deploy/static/provider/cloud/deploy.yaml
 kubectl create -f ingress-service.yml

@@ -26,7 +26,7 @@ spec:
             - name: POSTGRES_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: myapp-secret
+                  name: mypostgres-secret
                   key: PGPASSWORD
             - name: POSTGRES_DB
               valueFrom:
@@ -46,7 +46,7 @@ spec:
       volumes:
         - name: postgresvolume
           persistentVolumeClaim:
-            claimName: postgres-pvc
+            claimName: mypostgres-pvc
   replicas: 1
   selector:
     matchLabels:

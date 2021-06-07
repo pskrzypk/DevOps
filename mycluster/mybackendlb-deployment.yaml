@@ -21,7 +21,7 @@ spec:
             - name: PGPASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: myapp-secret
+                  name: mypostgres-secret
                   key: PGPASSWORD
             - name: PGDATABASE
               valueFrom:

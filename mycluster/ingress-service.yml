@@ -5,7 +5,7 @@ metadata:
 spec:
   defaultBackend:
     service:
-      name: myapp-frontend-clusterip
+      name: myfrontend-clusterip
       port:
         number: 80
   rules:
@@ -15,7 +15,7 @@ spec:
           pathType: Prefix
           backend:
             service:
-              name:  myapp-frontend-clusterip
+              name:  myfrontend-clusterip
               port:
                 number: 80
         - path: /api
