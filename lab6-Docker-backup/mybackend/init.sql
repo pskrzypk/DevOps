@@ -1,0 +1,1 @@
+CREATE TABLE IF NOT EXISTS dywidenda (id SERIAL PRIMARY KEY, wartosc NUMERIC(15, 2), rentownosc NUMERIC(4, 2));

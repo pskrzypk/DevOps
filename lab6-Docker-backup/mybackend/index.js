@@ -1,6 +1,5 @@
 const express = require('express');
 const cors = require('cors');
-const keys = require('./keys');
 
 const app = express();
 
@@ -11,9 +10,9 @@ app.use(express.json());
 const redis = require('redis');
 
 const redisClient = redis.createClient({
-    host: keys.redisHost,
-    port: keys.redisPort,
-    retry_strategy: () => 1000
+    host: "myredis",
+    port: 6379,
+    // retry_strategy: () => 1000
 });
 
 redisClient.on('connect', () =>{
@@ -24,11 +23,11 @@ redisClient.on('connect', () =>{
 const { Pool } = require('pg');
 
 const pgClient = new Pool({
-    user: keys.pgUser,
-    password: keys.pgPassword,
-    database: keys.pgDatabase,
-    host: keys.pgHost,
-    port: keys.pgPort
+    user: "myappuser",
+    password: "1qaz2wsx",
+    database: "myappdb",
+    host: "mypostgres",
+    port: "5432"
 });
 
 pgClient.on('error', () => {
@@ -38,8 +37,6 @@ pgClient.on('error', () => {
 pgClient.on('connect', () =>{
     console.log("Connected to Postgres server");
 });
-
-pgClient.query('CREATE TABLE IF NOT EXISTS dywidenda (id SERIAL PRIMARY KEY, wartosc NUMERIC(15, 2), rentownosc NUMERIC(4, 2))').catch(err => console.log(err));
 
 // rest
 const PORT = 5000;
@@ -62,7 +59,6 @@ function stringifyTaxes(rows)
 }
 
 app.get("/api", (req, res) => {
-
     var id = req.query['id'];
 
     if (!id)

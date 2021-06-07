@@ -11,6 +11,7 @@ kubectl apply -f postgres-secret.yml
 kubectl apply -f postgres-configMap.yml
 kubectl apply -f postgres-deployment.yml
 
+# kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v0.47.0/deploy/static/provider/cloud/deploy.yaml
 kubectl create -f ingress-service.yml
 
 kubectl apply -f mybackendlb-clusterip.yaml
@@ -21,8 +22,5 @@ kubectl create -f myfrontend-deployment.yml
 
 kubectl get deploy
 
-
-kubectl apply -f mybackendlb-node-port.yaml
-kubectl apply -f myfrontend-node-port.yml
-
-kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v0.47.0/deploy/static/provider/cloud/deploy.yaml
+# kubectl apply -f mybackendlb-node-port.yaml
+# kubectl apply -f myfrontend-node-port.yml
