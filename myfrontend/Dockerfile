@@ -1,4 +1,4 @@
-FROM node:alpine
+FROM node:alpine as mybuild
 
 WORKDIR /opt/app
 
@@ -8,5 +8,10 @@ RUN yarn install
 
 COPY . .
 
-CMD ["yarn", "start"]
-# yarn build
+CMD ["yarn", "build"]
+
+
+FROM nginx
+
+COPY --from=mybuild /opt/app/build /usr/share/nginx/html
+

@@ -7,7 +7,7 @@ metadata:
 spec:
   type: ClusterIP
   ports:
-    - targetPort: 3000
+    - targetPort: 80
       port: 80
 
   selector:
