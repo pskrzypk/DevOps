@@ -57,6 +57,7 @@ kubernetes:
 kubectl cluster-info # czy dziala
 kubectl get pods
 kubectl --namespace=kube-system get pods
+kubectl get pods -n ingress-nginx
 kubectl apply -f my-nginx-pod.yaml # stworz
 kubectl create -f my-nginx-pod.yaml # tez stworz, ale inaczej?
 kubectl describe pod my-nginx-pod # zajrzyj do srodka
