@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: mybackendlb-container
-          image: pskrzypk/mybackendlb
+          image: pskrzypk/mybackendbuild
           env:
             - name: PGPASSWORD
               valueFrom:
